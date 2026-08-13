@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Teste de Login Social</h1>
+    <form action="{% url 'social:begin' 'github' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Entrar com GitHub</button>
+    </form>
+    <form action="{% url 'social:begin' 'google-oauth2' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Entrar com Google</button>
+    </form>
+</body>
+</html>
