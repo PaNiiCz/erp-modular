@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'social_django',
     'apps.usuarios',
     'apps.clientes',
+    'apps.produtos',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
