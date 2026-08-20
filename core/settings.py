@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.estoque',
     'apps.vendas',
     'apps.financeiro',
+    'apps.compras',
     'django_filters',
 
 ]

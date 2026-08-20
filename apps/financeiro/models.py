@@ -117,3 +117,46 @@ def cancelar_receita_venda(sender, instance, created, **kwargs):
     LancamentoFinanceiro.objects.filter(
         descricao=f'Venda #{instance.id}'
     ).update(status='CANCELADO')
+
+from apps.compras.models import Compra
+
+
+@receiver(post_save, sender=Compra)
+def gerar_despesa_compra(sender, instance, created, **kwargs):
+    if instance.status != 'CONFIRMADA':
+        return
+
+    if not instance.itens.exists():
+        return
+
+    ja_gerado = LancamentoFinanceiro.objects.filter(
+        descricao=f'Compra #{instance.id}'
+    ).exists()
+
+    if ja_gerado:
+        return
+
+    categoria, _ = CategoriaFinanceira.objects.get_or_create(
+        nome='Compras', tipo='DESPESA'
+    )
+
+    LancamentoFinanceiro.objects.create(
+        tipo='DESPESA',
+        categoria=categoria,
+        descricao=f'Compra #{instance.id}',
+        valor=instance.total,
+        forma_pagamento=instance.forma_pagamento,
+        status='PAGO',
+        data_vencimento=timezone.now().date(),
+        data_pagamento=timezone.now().date(),
+    )
+
+
+@receiver(post_save, sender=Compra)
+def cancelar_despesa_compra(sender, instance, created, **kwargs):
+    if created or instance.status != 'CANCELADA':
+        return
+
+    LancamentoFinanceiro.objects.filter(
+        descricao=f'Compra #{instance.id}'
+    ).update(status='CANCELADO')
