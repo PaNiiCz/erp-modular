@@ -24,13 +24,23 @@ class VendaSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         itens_data = validated_data.pop('itens')
+        status_desejado = validated_data.pop('status', 'ABERTA')
+
         try:
-            venda = Venda.objects.create(**validated_data)
+            venda = Venda.objects.create(status='ABERTA', **validated_data)
         except DjangoValidationError as e:
             raise serializers.ValidationError(e.message_dict if hasattr(e, 'message_dict') else e.messages)
 
         for item_data in itens_data:
             ItemVenda.objects.create(venda=venda, **item_data)
+
+        if status_desejado != 'ABERTA':
+            venda.status = status_desejado
+            try:
+                venda.save()
+            except DjangoValidationError as e:
+                raise serializers.ValidationError(e.message_dict if hasattr(e, 'message_dict') else e.messages)
+
         return venda
 
     def update(self, instance, validated_data):

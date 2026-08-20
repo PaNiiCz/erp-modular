@@ -59,6 +59,7 @@ class ItemVenda(models.Model):
         verbose_name = 'Item da Venda'
         verbose_name_plural = 'Itens da Venda'
 
+
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
@@ -70,10 +71,15 @@ def validar_estoque_antes_confirmar(sender, instance, **kwargs):
     if instance.status != 'CONFIRMADA':
         return
 
-    if instance.pk:
-        venda_anterior = Venda.objects.get(pk=instance.pk)
-        if venda_anterior.status == 'CONFIRMADA':
-            return
+    if not instance.itens.exists():
+        return
+    
+    if not instance.pk:
+        return
+
+    venda_anterior = Venda.objects.get(pk=instance.pk)
+    if venda_anterior.status == 'CONFIRMADA':
+        return
 
     for item in instance.itens.all():
         estoque = Estoque.objects.filter(produto=item.produto).first()
