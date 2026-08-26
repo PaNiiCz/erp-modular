@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4318ff;
+  --color-secondary: #05cd99;
+  --color-danger: #ff5c5c;
+  --color-accent-blue: #2dd4ff;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3aed0;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer utilities {
+  .app-bg {
+    background: radial-gradient(circle at 20% 20%, rgba(67, 24, 255, 0.35) 0%, transparent 55%), radial-gradient(circle at 85% 10%, rgba(45, 212, 255, 0.25) 0%, transparent 50%), linear-gradient(135deg, #060a24 0%, #0e1a4a 50%, #060a24 100%);
+    min-height: 100vh;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(67, 24, 255, 0.4);
+    border-color: rgba(67, 24, 255, 0.5);
+  }
+
+  .icon-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%);
+  }
+}
