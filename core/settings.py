@@ -51,10 +51,11 @@ INSTALLED_APPS = [
     'apps.compras',
     'apps.dashboard',
     'django_filters',
-
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -165,3 +166,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_CLIENT_SECRET')
 
 LOGIN_REDIRECT_URL = '/api/usuarios/perfil/'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
