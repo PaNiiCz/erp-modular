@@ -169,4 +169,5 @@ LOGIN_REDIRECT_URL = '/api/usuarios/perfil/'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:4173",
 ]

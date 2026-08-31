@@ -38,4 +38,10 @@
     border-radius: 12px;
     background: linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%);
   }
+  
+
+    .login-bg {
+    background: linear-gradient(135deg, #2dd4ff 0%, #4318ff 55%, #1a0f6b 100%);
+    min-height: 100vh;
+  }
 }

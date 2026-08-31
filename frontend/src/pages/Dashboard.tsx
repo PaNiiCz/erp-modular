@@ -26,7 +26,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="app-bg p-8">
+    <div className="app-bg min-h-screen p-8">
       <h1 className="text-text-primary text-2xl font-bold font-sans mb-6">Dashboard</h1>
 
       {resumo && (
