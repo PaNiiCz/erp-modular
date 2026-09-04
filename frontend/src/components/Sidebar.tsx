@@ -12,6 +12,10 @@ import {
 } from 'lucide-react';
 import { logout } from '../services/auth';
 
+const GRADIENT_ACTIVE = 'linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%)';
+const GRADIENT_CARD = 'linear-gradient(160deg, #4318ff 0%, #2dd4ff 120%)';
+const SHADOW_ACTIVE = '0 4px 14px rgba(67,24,255,0.4)';
+
 const itens = [
   { path: '/clientes', label: 'Clientes', icon: Users },
   { path: '/produtos', label: 'Produtos', icon: Package },
@@ -35,6 +39,8 @@ export default function Sidebar() {
       style={{
         background: 'linear-gradient(180deg, #0b1030 0%, #1a1450 60%, #241a5e 100%)',
       }}
+      role="navigation"
+      aria-label="Menu principal"
     >
       <div className="flex items-center gap-2 mb-5 px-1">
         <div className="icon-badge w-7 h-7 text-white text-xs font-extrabold">E</div>
@@ -47,19 +53,18 @@ export default function Sidebar() {
         to="/dashboard"
         className={({ isActive }) =>
           `flex items-center gap-2.5 rounded-xl px-3 py-2.5 mb-3 font-sans text-sm font-semibold transition ${
-            isActive
-              ? 'text-white'
-              : 'text-white/70 hover:bg-white/5'
+            isActive ? 'text-white' : 'text-white/70 hover:bg-white/5'
           }`
         }
         style={({ isActive }) =>
           isActive
             ? {
-                background: 'linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%)',
-                boxShadow: '0 4px 14px rgba(67,24,255,0.4)',
+                background: GRADIENT_ACTIVE,
+                boxShadow: SHADOW_ACTIVE,
               }
             : {}
         }
+        aria-label="Dashboard"
       >
         <LayoutDashboard size={16} />
         Dashboard
@@ -76,11 +81,10 @@ export default function Sidebar() {
             to={path}
             className={({ isActive }) =>
               `flex items-center gap-2.5 rounded-xl px-2 py-2 font-sans text-sm transition ${
-                isActive
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/70 hover:bg-white/5'
+                isActive ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'
               }`
             }
+            aria-label={label}
           >
             <span className="w-5 h-5 rounded-md bg-white/[0.06] flex items-center justify-center">
               <Icon size={12} />
@@ -94,7 +98,7 @@ export default function Sidebar() {
 
       <div
         className="rounded-2xl p-3.5 mb-2"
-        style={{ background: 'linear-gradient(160deg, #4318ff 0%, #2dd4ff 120%)' }}
+        style={{ background: GRADIENT_CARD }}
       >
         <div className="w-5 h-5 rounded-md bg-white/25 flex items-center justify-center mb-1.5">
           <Star size={12} className="text-white" />
@@ -109,6 +113,7 @@ export default function Sidebar() {
       <button
         onClick={handleLogout}
         className="flex items-center gap-2.5 px-2 py-1.5 rounded-xl font-sans text-sm text-danger hover:bg-white/5 transition"
+        aria-label="Fazer logout"
       >
         <LogOut size={16} />
         Sair

@@ -14,6 +14,12 @@
   .app-bg {
     background: radial-gradient(circle at 20% 20%, rgba(67, 24, 255, 0.35) 0%, transparent 55%), radial-gradient(circle at 85% 10%, rgba(45, 212, 255, 0.25) 0%, transparent 50%), linear-gradient(135deg, #060a24 0%, #0e1a4a 50%, #060a24 100%);
     min-height: 100vh;
+      select,
+    select option {
+    background-color: #1a1d3a;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
   }
 
   .glass-card {

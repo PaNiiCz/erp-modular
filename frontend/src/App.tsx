@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import EmConstrucao from './pages/EmConstrucao';
 import RotaProtegida from './components/RotaProtegida';
 import Layout from './components/Layout';
+import Clientes from './pages/Clientes';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Clientes" />
+                <Clientes />
               </Layout>
             </RotaProtegida>
           }
