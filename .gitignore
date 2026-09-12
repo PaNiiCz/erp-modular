@@ -9,3 +9,6 @@ media/
 .vscode/
 desktop.ini
 Módulos.rtf
+node_modules/
+dist/
+*.local

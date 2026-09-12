@@ -6,6 +6,7 @@ import EmConstrucao from './pages/EmConstrucao';
 import RotaProtegida from './components/RotaProtegida';
 import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
+import Produtos from './pages/Produtos';
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Produtos" />
+                <Produtos />
               </Layout>
             </RotaProtegida>
           }
@@ -65,11 +66,11 @@ function App() {
           }
         />
         <Route
-          path="/financeiro"
+          path="/produtos"
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Financeiro" />
+                <Produtos />
               </Layout>
             </RotaProtegida>
           }
