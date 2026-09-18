@@ -7,6 +7,7 @@ import RotaProtegida from './components/RotaProtegida';
 import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
+import Estoque from './pages/Estoque';
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Estoque" />
+                <Estoque />
               </Layout>
             </RotaProtegida>
           }
@@ -66,11 +67,11 @@ function App() {
           }
         />
         <Route
-          path="/produtos"
+          path="/financeiro"
           element={
             <RotaProtegida>
               <Layout>
-                <Produtos />
+                <EmConstrucao titulo="Financeiro" />
               </Layout>
             </RotaProtegida>
           }
