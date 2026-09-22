@@ -9,6 +9,7 @@ import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
 import Estoque from './pages/Estoque';
 import Vendas from './pages/Vendas';
+import Financeiro from './pages/Financeiro';
 
 function App() {
   return (
@@ -72,7 +73,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Financeiro" />
+                <Financeiro />
               </Layout>
             </RotaProtegida>
           }
