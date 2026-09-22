@@ -8,6 +8,7 @@ import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
 import Estoque from './pages/Estoque';
+import Vendas from './pages/Vendas';
 
 function App() {
   return (
@@ -61,7 +62,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Vendas" />
+                <Vendas />
               </Layout>
             </RotaProtegida>
           }
