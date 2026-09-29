@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import Dashboard from './pages/Dashboard';
-import EmConstrucao from './pages/EmConstrucao';
 import RotaProtegida from './components/RotaProtegida';
 import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
@@ -10,6 +9,7 @@ import Produtos from './pages/Produtos';
 import Estoque from './pages/Estoque';
 import Vendas from './pages/Vendas';
 import Financeiro from './pages/Financeiro';
+import Compras from './pages/Compras';
 
 function App() {
   return (
@@ -83,7 +83,7 @@ function App() {
           element={
             <RotaProtegida>
               <Layout>
-                <EmConstrucao titulo="Compras" />
+                <Compras />
               </Layout>
             </RotaProtegida>
           }

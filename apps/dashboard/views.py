@@ -27,13 +27,28 @@ class ResumoDashboardView(APIView):
         hoje = date.today()
         inicio_mes = hoje.replace(day=1)
 
-        # Vendas do mês (confirmadas) — total é property, soma em Python
-        vendas_mes = Venda.objects.filter(
+        # Vendas do mês (confirmadas) — antes: sum(v.total for v in vendas_mes) disparava
+        # uma consulta extra ao banco POR venda (N+1). Agora o banco calcula tudo de uma vez:
+        # soma o subtotal de todos os itens das vendas confirmadas do mês...
+        subtotal_itens_mes = ItemVenda.objects.filter(
+            venda__status='CONFIRMADA',
+            venda__criado_em__gte=inicio_mes
+        ).aggregate(
+            total=Sum(F('quantidade') * F('preco_unitario'))
+        )['total'] or 0
+
+        # ...e subtrai a soma dos descontos das vendas do mês (mesma lógica da property `total`)
+        total_descontos_mes = Venda.objects.filter(
             status='CONFIRMADA',
             criado_em__gte=inicio_mes
-        )
-        faturamento_mes = sum(v.total for v in vendas_mes)
-        total_vendas_mes = vendas_mes.count()
+        ).aggregate(total=Sum('desconto'))['total'] or 0
+
+        faturamento_mes = subtotal_itens_mes - total_descontos_mes
+
+        total_vendas_mes = Venda.objects.filter(
+            status='CONFIRMADA',
+            criado_em__gte=inicio_mes
+        ).count()
 
         # Financeiro — contas a receber/pagar pendentes
         contas_a_receber = LancamentoFinanceiro.objects.filter(
@@ -137,6 +152,7 @@ class GraficoVendasView(APIView):
 
         serializer = VendaPorDiaSerializer(dados, many=True)
         return Response(serializer.data)
+
 
 class AtividadesRecentesView(APIView):
     permission_classes = [IsAuthenticated]
