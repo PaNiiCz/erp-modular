@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   Wallet,
   Truck,
+  FileText,
   LogOut,
   Star,
 } from 'lucide-react';
@@ -23,6 +24,7 @@ const itens = [
   { path: '/vendas', label: 'Vendas', icon: ShoppingCart },
   { path: '/financeiro', label: 'Financeiro', icon: Wallet },
   { path: '/compras', label: 'Compras', icon: Truck },
+  { path: '/relatorios', label: 'Relatórios', icon: FileText },
 ];
 
 export default function Sidebar() {

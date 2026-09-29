@@ -10,6 +10,7 @@ import Estoque from './pages/Estoque';
 import Vendas from './pages/Vendas';
 import Financeiro from './pages/Financeiro';
 import Compras from './pages/Compras';
+import Relatorios from './pages/Relatorios';
 
 function App() {
   return (
@@ -84,6 +85,16 @@ function App() {
             <RotaProtegida>
               <Layout>
                 <Compras />
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+        <Route
+          path="/relatorios"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <Relatorios />
               </Layout>
             </RotaProtegida>
           }

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.dashboard',
     'django_filters',
     'corsheaders',
+    'apps.relatorios',
 ]
 
 MIDDLEWARE = [
