@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
 import type { FormatoRelatorio } from '../../types/relatorio';
+import Select from '../Select';
 
 interface FiltroExtra {
   label: string;
@@ -20,6 +21,12 @@ interface Props {
   filtrosExtras?: FiltroExtra[];
   onBaixar: (formato: FormatoRelatorio) => Promise<void>;
 }
+
+const opcoesFormato = [
+  { valor: 'csv', label: 'CSV' },
+  { valor: 'xlsx', label: 'Excel (.xlsx)' },
+  { valor: 'pdf', label: 'PDF' },
+];
 
 export default function CardRelatorio({
   titulo,
@@ -73,26 +80,14 @@ export default function CardRelatorio({
           {filtrosExtras.map((filtro) => (
             <div key={filtro.label}>
               <label className={label}>{filtro.label}</label>
-              <select className={input} value={filtro.valor} onChange={(e) => filtro.onChange(e.target.value)}>
-                {filtro.opcoes.map((op) => (
-                  <option key={op.valor} value={op.valor}>{op.label}</option>
-                ))}
-              </select>
+              <Select value={filtro.valor} onChange={filtro.onChange} opcoes={filtro.opcoes} />
             </div>
           ))}
         </div>
       )}
 
       <div className="flex items-center gap-3">
-        <select
-          className={input}
-          value={formato}
-          onChange={(e) => setFormato(e.target.value as FormatoRelatorio)}
-        >
-          <option value="csv">CSV</option>
-          <option value="xlsx">Excel (.xlsx)</option>
-          <option value="pdf">PDF</option>
-        </select>
+        <Select value={formato} onChange={(v) => setFormato(v as FormatoRelatorio)} opcoes={opcoesFormato} className="flex-1" />
         <button
           onClick={handleBaixar}
           disabled={baixando}

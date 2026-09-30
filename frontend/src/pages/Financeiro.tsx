@@ -4,6 +4,7 @@ import { listarLancamentos, buscarResumo, criarLancamento, atualizarLancamento, 
 import type { LancamentoFinanceiro, LancamentoForm, ResumoFinanceiro, StatusLancamento, TipoLancamento } from '../types/financeiro';
 import LancamentoFormModal from '../components/financeiro/LancamentoFormModal';
 import ConfirmModal from '../components/ConfirmModal';
+import SelectCampo from '../components/SelectCampo';
 
 const statusCor: Record<StatusLancamento, string> = {
   PENDENTE: 'bg-warning/20 text-warning',
@@ -156,26 +157,26 @@ export default function Financeiro() {
             className="w-full pl-9 pr-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
           />
         </div>
-        <select
+        <SelectCampo
           value={filtroTipo}
           onChange={(e) => setFiltroTipo(e.target.value)}
-          className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
+          className="w-48"
         >
           <option value="">Todos os tipos</option>
           <option value="RECEITA">Receita</option>
           <option value="DESPESA">Despesa</option>
-        </select>
-        <select
+        </SelectCampo>
+        <SelectCampo
           value={filtroStatus}
           onChange={(e) => setFiltroStatus(e.target.value)}
-          className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
+          className="w-48"
         >
           <option value="">Todos os status</option>
           <option value="PENDENTE">Pendente</option>
           <option value="PAGO">Pago</option>
           <option value="ATRASADO">Atrasado</option>
           <option value="CANCELADO">Cancelado</option>
-        </select>
+        </SelectCampo>
       </div>
 
       <div className="glass-card rounded-2xl overflow-hidden">

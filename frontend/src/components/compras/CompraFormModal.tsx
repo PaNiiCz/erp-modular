@@ -4,6 +4,7 @@ import type { Compra, CompraForm, ItemCompraForm, FormaPagamentoCompra } from '.
 import type { Fornecedor } from '../../types/produto';
 import type { Produto } from '../../types/produto';
 import { listarFornecedores, listarProdutos } from '../../services/produtos';
+import SelectCampo from '../SelectCampo';
 
 interface Props {
   compra: Compra | null;
@@ -170,22 +171,21 @@ export default function CompraFormModal({ compra, onClose, onSalvar }: Props) {
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label className={label}>Fornecedor</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.fornecedor ?? ''}
               onChange={(e) => campo('fornecedor', e.target.value ? Number(e.target.value) : null)}
-              required
             >
               <option value="">Selecione um fornecedor</option>
               {fornecedores.map((f) => (
                 <option key={f.id} value={f.id}>{f.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Forma de pagamento</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.forma_pagamento}
               onChange={(e) => campo('forma_pagamento', e.target.value as FormaPagamentoCompra)}
             >
@@ -194,7 +194,7 @@ export default function CompraFormModal({ compra, onClose, onSalvar }: Props) {
               <option value="CARTAO_CREDITO">Cartão de Crédito</option>
               <option value="CARTAO_DEBITO">Cartão de Débito</option>
               <option value="BOLETO">Boleto</option>
-            </select>
+            </SelectCampo>
           </div>
         </div>
 
@@ -216,17 +216,16 @@ export default function CompraFormModal({ compra, onClose, onSalvar }: Props) {
               <div key={index} className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-2 items-end bg-white/5 rounded-xl p-2">
                 <div>
                   {index === 0 && <label className={label}>Produto</label>}
-                  <select
-                    className={input}
+                  <SelectCampo
+                    className="w-full"
                     value={item.produto ?? ''}
                     onChange={(e) => handleProdutoItemChange(index, Number(e.target.value))}
-                    required
                   >
                     <option value="">Selecione</option>
                     {produtos.map((p) => (
                       <option key={p.id} value={p.id}>{p.sku} — {p.nome}</option>
                     ))}
-                  </select>
+                  </SelectCampo>
                 </div>
                 <div>
                   {index === 0 && <label className={label}>Qtd.</label>}

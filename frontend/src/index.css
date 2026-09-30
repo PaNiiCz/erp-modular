@@ -51,3 +51,10 @@
     min-height: 100vh;
   }
 }
+
+/* Deixa o calendário do input date e a lista de opções do select
+   escuros (seguindo o tema do site) em vez do branco padrão do navegador */
+select,
+input[type='date'] {
+  color-scheme: dark;
+}

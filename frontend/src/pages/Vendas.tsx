@@ -4,6 +4,7 @@ import { listarVendas, criarVenda, atualizarVenda, excluirVenda, alterarStatusVe
 import type { Venda, VendaForm, StatusVenda } from '../types/venda';
 import VendaFormModal from '../components/vendas/VendaFormModal';
 import ConfirmModal from '../components/ConfirmModal';
+import SelectCampo from '../components/SelectCampo';
 
 const statusCor: Record<StatusVenda, string> = {
   ABERTA: 'bg-warning/20 text-warning',
@@ -140,16 +141,16 @@ export default function Vendas() {
             className="w-full pl-9 pr-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
           />
         </div>
-        <select
+        <SelectCampo
           value={filtroStatus}
           onChange={(e) => setFiltroStatus(e.target.value)}
-          className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
+          className="w-48"
         >
           <option value="">Todos os status</option>
           <option value="ABERTA">Aberta</option>
           <option value="CONFIRMADA">Confirmada</option>
           <option value="CANCELADA">Cancelada</option>
-        </select>
+        </SelectCampo>
       </div>
 
       <div className="glass-card rounded-2xl overflow-hidden">

@@ -4,6 +4,7 @@ import type { LancamentoForm, TipoLancamento, StatusLancamento, FormaPagamentoFi
 import type { Cliente } from '../../types/cliente';
 import { listarCategoriasFinanceiras } from '../../services/financeiro';
 import { listarClientes } from '../../services/clientes';
+import SelectCampo from '../SelectCampo';
 
 interface Props {
   lancamento: LancamentoFinanceiro | null;
@@ -166,8 +167,8 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
           </div>
           <div>
             <label className={label}>Categoria</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.categoria ?? ''}
               onChange={(e) => campo('categoria', e.target.value ? Number(e.target.value) : null)}
             >
@@ -175,7 +176,7 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
               {categorias.map((c) => (
                 <option key={c.id} value={c.id}>{c.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
         </div>
 
@@ -187,8 +188,8 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label className={label}>Cliente (opcional)</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.cliente ?? ''}
               onChange={(e) => campo('cliente', e.target.value ? Number(e.target.value) : null)}
             >
@@ -196,7 +197,7 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
               {clientes.map((c) => (
                 <option key={c.id} value={c.id}>{c.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Valor</label>
@@ -217,8 +218,8 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label className={label}>Forma de pagamento</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.forma_pagamento}
               onChange={(e) => campo('forma_pagamento', e.target.value as FormaPagamentoFinanceiro)}
             >
@@ -228,12 +229,12 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
               <option value="CARTAO_DEBITO">Cartão de Débito</option>
               <option value="BOLETO">Boleto</option>
               <option value="TRANSFERENCIA">Transferência</option>
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Status</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.status}
               onChange={(e) => handleStatusChange(e.target.value as StatusLancamento)}
             >
@@ -241,7 +242,7 @@ export default function LancamentoFormModal({ lancamento, onClose, onSalvar }: P
               <option value="PAGO">Pago</option>
               <option value="ATRASADO">Atrasado</option>
               <option value="CANCELADO">Cancelado</option>
-            </select>
+            </SelectCampo>
           </div>
         </div>
 
