@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import type { MovimentacaoForm, TipoMovimentacao } from '../../types/estoque';
 import type { Produto } from '../../types/produto';
 import { listarProdutos } from '../../services/produtos';
+import SelectCampo from '../SelectCampo';
 
 interface Props {
   onClose: () => void;
@@ -83,30 +84,29 @@ export default function MovimentacaoFormModal({ onClose, onSalvar }: Props) {
 
         <div className="mb-3">
           <label className={label}>Produto</label>
-          <select
-            className={input}
+          <SelectCampo
+            className="w-full"
             value={form.produto ?? ''}
             onChange={(e) => campo('produto', e.target.value ? Number(e.target.value) : null)}
-            required
           >
             <option value="">Selecione um produto</option>
             {produtos.map((p) => (
               <option key={p.id} value={p.id}>{p.sku} — {p.nome}</option>
             ))}
-          </select>
+          </SelectCampo>
         </div>
 
         <div className="mb-3">
           <label className={label}>Tipo de movimentação</label>
-          <select
-            className={input}
+          <SelectCampo
+            className="w-full"
             value={form.tipo}
             onChange={(e) => campo('tipo', e.target.value as TipoMovimentacao)}
           >
             {(Object.keys(tipoInfo) as TipoMovimentacao[]).map((tipo) => (
               <option key={tipo} value={tipo}>{tipoInfo[tipo].label}</option>
             ))}
-          </select>
+          </SelectCampo>
           <p className="text-text-secondary text-xs font-sans mt-1">{tipoInfo[form.tipo].descricao}</p>
         </div>
 

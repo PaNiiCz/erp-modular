@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import type { Cliente, ClienteForm } from '../../types/cliente';
+import SelectCampo from '../SelectCampo';
 
 interface Props {
   cliente: Cliente | null;
@@ -155,8 +156,8 @@ export default function ClienteFormModal({ cliente, onClose, onSalvar }: Props) 
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label className={label}>Tipo de pessoa</label>
-            <select
-              className={input}
+            <SelectCampo
+              className="w-full"
               value={form.tipo_pessoa}
               onChange={(e) => {
                 const tipo = e.target.value as 'PF' | 'PJ';
@@ -165,7 +166,7 @@ export default function ClienteFormModal({ cliente, onClose, onSalvar }: Props) 
             >
               <option value="PF">Pessoa Física</option>
               <option value="PJ">Pessoa Jurídica</option>
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>CPF/CNPJ</label>
@@ -236,19 +237,19 @@ export default function ClienteFormModal({ cliente, onClose, onSalvar }: Props) 
           </div>
           <div>
             <label className={label}>Estado</label>
-            <select className={input} value={form.estado} onChange={(e) => campo('estado', e.target.value)}>
+            <SelectCampo className="w-full" value={form.estado} onChange={(e) => campo('estado', e.target.value)}>
               <option value="">Selecione...</option>
               {ESTADOS.map((uf) => (
                 <option key={uf.sigla} value={uf.sigla}>{uf.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
             <label className={label}>Cidade</label>
-            <select className={input} value={form.cidade} onChange={(e) => campo('cidade', e.target.value)} disabled={!form.estado}>
+            <SelectCampo className="w-full" value={form.cidade} onChange={(e) => campo('cidade', e.target.value)} disabled={!form.estado}>
               <option value="">{form.estado ? 'Selecione...' : 'Selecione o estado primeiro'}</option>
               {form.cidade && !cidades.includes(form.cidade) && (
                 <option value={form.cidade}>{form.cidade}</option>
@@ -256,7 +257,7 @@ export default function ClienteFormModal({ cliente, onClose, onSalvar }: Props) 
               {cidades.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Etiquetas</label>

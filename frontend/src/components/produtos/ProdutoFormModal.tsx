@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import type { Produto, ProdutoForm, Categoria, Marca, Fornecedor } from '../../types/produto';
 import { listarCategorias, listarMarcas, listarFornecedores } from '../../services/produtos';
 import api from '../../services/api';
+import SelectCampo from '../SelectCampo';
 
 interface Props {
   produto: Produto | null;
@@ -204,30 +205,30 @@ export default function ProdutoFormModal({ produto, onClose, onSalvar }: Props) 
         <div className="grid grid-cols-3 gap-3 mb-3">
           <div>
             <label className={label}>Categoria</label>
-            <select className={input} value={form.categoria ?? ''} onChange={(e) => campo('categoria', e.target.value ? Number(e.target.value) : null)}>
+            <SelectCampo className="w-full" value={form.categoria ?? ''} onChange={(e) => campo('categoria', e.target.value ? Number(e.target.value) : null)}>
               <option value="">Nenhuma</option>
               {categorias.map((c) => (
                 <option key={c.id} value={c.id}>{c.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Marca</label>
-            <select className={input} value={form.marca ?? ''} onChange={(e) => campo('marca', e.target.value ? Number(e.target.value) : null)}>
+            <SelectCampo className="w-full" value={form.marca ?? ''} onChange={(e) => campo('marca', e.target.value ? Number(e.target.value) : null)}>
               <option value="">Nenhuma</option>
               {marcas.map((m) => (
                 <option key={m.id} value={m.id}>{m.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Fornecedor</label>
-            <select className={input} value={form.fornecedor ?? ''} onChange={(e) => campo('fornecedor', e.target.value ? Number(e.target.value) : null)}>
+            <SelectCampo className="w-full" value={form.fornecedor ?? ''} onChange={(e) => campo('fornecedor', e.target.value ? Number(e.target.value) : null)}>
               <option value="">Nenhum</option>
               {fornecedores.map((f) => (
                 <option key={f.id} value={f.id}>{f.nome}</option>
               ))}
-            </select>
+            </SelectCampo>
           </div>
         </div>
 
@@ -265,13 +266,13 @@ export default function ProdutoFormModal({ produto, onClose, onSalvar }: Props) 
         <div className="grid grid-cols-3 gap-3 mb-4">
           <div>
             <label className={label}>Unidade</label>
-            <select className={input} value={form.unidade} onChange={(e) => campo('unidade', e.target.value as ProdutoForm['unidade'])}>
+            <SelectCampo className="w-full" value={form.unidade} onChange={(e) => campo('unidade', e.target.value as ProdutoForm['unidade'])}>
               <option value="UN">Unidade</option>
               <option value="KG">Quilograma</option>
               <option value="L">Litro</option>
               <option value="CX">Caixa</option>
               <option value="PC">Pacote</option>
-            </select>
+            </SelectCampo>
           </div>
           <div>
             <label className={label}>Estoque mínimo</label>
@@ -285,11 +286,11 @@ export default function ProdutoFormModal({ produto, onClose, onSalvar }: Props) 
           </div>
           <div>
             <label className={label}>Status</label>
-            <select className={input} value={form.status} onChange={(e) => campo('status', e.target.value as ProdutoForm['status'])}>
+            <SelectCampo className="w-full" value={form.status} onChange={(e) => campo('status', e.target.value as ProdutoForm['status'])}>
               <option value="ATIVO">Ativo</option>
               <option value="INATIVO">Inativo</option>
               <option value="DESCONTINUADO">Descontinuado</option>
-            </select>
+            </SelectCampo>
           </div>
         </div>
 

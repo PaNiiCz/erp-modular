@@ -3,6 +3,7 @@ import { Plus, Search, AlertTriangle } from 'lucide-react';
 import { listarEstoque, listarAlertas, listarMovimentacoes, criarMovimentacao } from '../services/estoque';
 import type { Estoque, MovimentacaoEstoque, MovimentacaoForm, TipoMovimentacao } from '../types/estoque';
 import MovimentacaoFormModal from '../components/estoque/MovimentacaoFormModal';
+import SelectCampo from '../components/SelectCampo';
 
 const tipoCor: Record<TipoMovimentacao, string> = {
   ENTRADA: 'bg-secondary/20 text-secondary',
@@ -114,17 +115,17 @@ export default function EstoquePage() {
         )}
 
         {aba === 'movimentacoes' && (
-          <select
+          <SelectCampo
+            className="w-48"
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm font-sans outline-none focus:border-primary"
           >
             <option value="">Todos os tipos</option>
             <option value="ENTRADA">Entrada</option>
             <option value="SAIDA">Saída</option>
             <option value="AJUSTE">Ajuste</option>
             <option value="TRANSFERENCIA">Transferência</option>
-          </select>
+          </SelectCampo>
         )}
       </div>
 
