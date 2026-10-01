@@ -1,7 +1,15 @@
+from pathlib import Path
+
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 
 from .validators import validar_cpf
+
+
+def armazenamento_privado():
+    """Guarda os documentos fora da pasta pública /media/."""
+    return FileSystemStorage(location=Path(settings.BASE_DIR) / 'arquivos_privados')
 
 
 class Departamento(models.Model):
@@ -137,7 +145,7 @@ class DocumentoFuncionario(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE, related_name='documentos')
     tipo = models.CharField(max_length=12, choices=Tipo.choices, default=Tipo.OUTRO)
     titulo = models.CharField(max_length=150)
-    arquivo = models.FileField(upload_to='rh/documentos/')
+    arquivo = models.FileField(upload_to='rh/documentos/', storage=armazenamento_privado)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:

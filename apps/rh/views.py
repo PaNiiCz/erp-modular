@@ -1,12 +1,16 @@
+import os
+
 from django.db.models import Count, ProtectedError, Sum
+from django.http import FileResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Cargo, Departamento, DocumentoFuncionario, Escala, Ferias, Funcionario
+from .permissions import AcessoRH
 from .serializers import (
     CargoSerializer,
     DepartamentoSerializer,
@@ -17,10 +21,19 @@ from .serializers import (
 )
 
 
-class BaseRHViewSet(viewsets.ModelViewSet):
-    """Base dos ViewSets do RH: autenticação, filtros e exclusão protegida."""
+class AcessoRHView(APIView):
+    """Usado pelo front-end para saber se o usuário pode ver o módulo de RH."""
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AcessoRH]
+
+    def get(self, request):
+        return Response({'acesso': True})
+
+
+class BaseRHViewSet(viewsets.ModelViewSet):
+    """Base dos ViewSets do RH: permissão de RH, filtros e exclusão protegida."""
+
+    permission_classes = [AcessoRH]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     mensagem_protegido = 'Não é possível excluir: existem registros vinculados a este item.'
 
@@ -124,3 +137,16 @@ class DocumentoFuncionarioViewSet(BaseRHViewSet):
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     filterset_fields = ['funcionario', 'tipo']
     search_fields = ['titulo', 'funcionario__nome']
+
+    @action(detail=True, methods=['get'])
+    def download(self, request, pk=None):
+        documento = self.get_object()  # já passa pela permissão de RH
+        try:
+            arquivo = documento.arquivo.open('rb')
+        except FileNotFoundError:
+            return Response({'detail': 'Arquivo não encontrado no servidor.'}, status=status.HTTP_404_NOT_FOUND)
+
+        resposta = FileResponse(arquivo, filename=os.path.basename(documento.arquivo.name))
+        resposta['X-Content-Type-Options'] = 'nosniff'
+        resposta['Cache-Control'] = 'private, no-store'
+        return resposta

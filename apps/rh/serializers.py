@@ -1,6 +1,12 @@
+import os
+
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from .models import Cargo, Departamento, DocumentoFuncionario, Escala, Ferias, Funcionario
+
+EXTENSOES_PERMITIDAS = {'.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx'}
+TAMANHO_MAXIMO_MB = 5
 
 
 class DepartamentoSerializer(serializers.ModelSerializer):
@@ -123,11 +129,26 @@ class EscalaSerializer(serializers.ModelSerializer):
 class DocumentoFuncionarioSerializer(serializers.ModelSerializer):
     funcionario_nome = serializers.CharField(source='funcionario.nome', read_only=True)
     tipo_nome = serializers.CharField(source='get_tipo_display', read_only=True)
+    arquivo_url = serializers.SerializerMethodField()
 
     class Meta:
         model = DocumentoFuncionario
         fields = [
             'id', 'funcionario', 'funcionario_nome', 'tipo', 'tipo_nome',
-            'titulo', 'arquivo', 'criado_em',
+            'titulo', 'arquivo', 'arquivo_url', 'criado_em',
         ]
         read_only_fields = ['criado_em']
+        extra_kwargs = {'arquivo': {'write_only': True}}
+
+    def get_arquivo_url(self, obj):
+        # Endereço do download protegido (exige login + permissão de RH)
+        return reverse('documento-download', args=[obj.pk], request=self.context.get('request'))
+
+    def validate_arquivo(self, arquivo):
+        extensao = os.path.splitext(arquivo.name)[1].lower()
+        if extensao not in EXTENSOES_PERMITIDAS:
+            permitidas = ', '.join(sorted(EXTENSOES_PERMITIDAS))
+            raise serializers.ValidationError(f'Tipo de arquivo não permitido. Use: {permitidas}.')
+        if arquivo.size > TAMANHO_MAXIMO_MB * 1024 * 1024:
+            raise serializers.ValidationError(f'O arquivo deve ter no máximo {TAMANHO_MAXIMO_MB} MB.')
+        return arquivo

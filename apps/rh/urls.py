@@ -1,6 +1,8 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from .views import (
+    AcessoRHView,
     CargoViewSet,
     DepartamentoViewSet,
     DocumentoFuncionarioViewSet,
@@ -17,4 +19,6 @@ router.register('ferias', FeriasViewSet, basename='ferias')
 router.register('escalas', EscalaViewSet, basename='escala')
 router.register('documentos', DocumentoFuncionarioViewSet, basename='documento')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('acesso/', AcessoRHView.as_view(), name='rh-acesso'),
+] + router.urls
