@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import Dashboard from './pages/Dashboard';
 import RotaProtegida from './components/RotaProtegida';
+import RotaRH from './components/RotaRH';
 import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
@@ -11,6 +12,7 @@ import Vendas from './pages/Vendas';
 import Financeiro from './pages/Financeiro';
 import Compras from './pages/Compras';
 import Relatorios from './pages/Relatorios';
+import RH from './pages/RH';
 
 function App() {
   return (
@@ -95,6 +97,18 @@ function App() {
             <RotaProtegida>
               <Layout>
                 <Relatorios />
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+        <Route
+          path="/rh"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <RotaRH>
+                  <RH />
+                </RotaRH>
               </Layout>
             </RotaProtegida>
           }

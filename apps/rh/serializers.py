@@ -2,8 +2,10 @@ import os
 
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from .models import Cargo, Departamento, DocumentoFuncionario, Escala, Ferias, Funcionario
+from .validators import validar_cpf
 
 EXTENSOES_PERMITIDAS = {'.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx'}
 TAMANHO_MAXIMO_MB = 5
@@ -16,6 +18,16 @@ class DepartamentoSerializer(serializers.ModelSerializer):
         model = Departamento
         fields = ['id', 'nome', 'descricao', 'ativo', 'total_funcionarios', 'criado_em']
         read_only_fields = ['criado_em']
+        extra_kwargs = {
+            'nome': {
+                'validators': [
+                    UniqueValidator(
+                        queryset=Departamento.objects.all(),
+                        message='Já existe um departamento com este nome.',
+                    )
+                ]
+            }
+        }
 
 
 class CargoSerializer(serializers.ModelSerializer):
@@ -28,6 +40,13 @@ class CargoSerializer(serializers.ModelSerializer):
             'descricao', 'salario_base', 'ativo', 'criado_em',
         ]
         read_only_fields = ['criado_em']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Cargo.objects.all(),
+                fields=['nome', 'departamento'],
+                message='Já existe um cargo com este nome neste departamento.',
+            )
+        ]
 
 
 class FuncionarioSerializer(serializers.ModelSerializer):
@@ -43,7 +62,26 @@ class FuncionarioSerializer(serializers.ModelSerializer):
             'salario', 'status', 'usuario', 'criado_em', 'atualizado_em',
         ]
         read_only_fields = ['criado_em', 'atualizado_em']
-        extra_kwargs = {'salario': {'required': False}}
+        extra_kwargs = {
+            'salario': {'required': False},
+            'cpf': {
+                'validators': [
+                    validar_cpf,
+                    UniqueValidator(
+                        queryset=Funcionario.objects.all(),
+                        message='Já existe um funcionário cadastrado com este CPF.',
+                    ),
+                ]
+            },
+            'email': {
+                'validators': [
+                    UniqueValidator(
+                        queryset=Funcionario.objects.all(),
+                        message='Já existe um funcionário cadastrado com este e-mail.',
+                    )
+                ]
+            },
+        }
 
     def to_internal_value(self, data):
         # Aceita CPF com máscara (123.456.789-09) e guarda só os números
@@ -116,6 +154,13 @@ class EscalaSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'funcionario', 'funcionario_nome', 'dia_semana',
             'dia_semana_nome', 'hora_inicio', 'hora_fim',
+        ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Escala.objects.all(),
+                fields=['funcionario', 'dia_semana'],
+                message='Este funcionário já tem uma escala cadastrada para este dia da semana.',
+            )
         ]
 
     def validate(self, attrs):

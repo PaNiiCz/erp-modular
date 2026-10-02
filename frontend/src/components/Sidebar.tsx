@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -8,16 +9,25 @@ import {
   Wallet,
   Truck,
   FileText,
+  Briefcase,
   LogOut,
   Star,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { logout } from '../services/auth';
+import { acessoRHConhecido, limparAcessoRH, verificarAcessoRH } from '../services/rh';
 
 const GRADIENT_ACTIVE = 'linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%)';
 const GRADIENT_CARD = 'linear-gradient(160deg, #4318ff 0%, #2dd4ff 120%)';
 const SHADOW_ACTIVE = '0 4px 14px rgba(67,24,255,0.4)';
 
-const itens = [
+interface ItemMenu {
+  path: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+const itens: ItemMenu[] = [
   { path: '/clientes', label: 'Clientes', icon: Users },
   { path: '/produtos', label: 'Produtos', icon: Package },
   { path: '/estoque', label: 'Estoque', icon: Boxes },
@@ -27,11 +37,44 @@ const itens = [
   { path: '/relatorios', label: 'Relatórios', icon: FileText },
 ];
 
+const itemRH: ItemMenu = { path: '/rh', label: 'RH', icon: Briefcase };
+
+function LinkMenu({ path, label, icon: Icon }: ItemMenu) {
+  return (
+    <NavLink
+      to={path}
+      className={({ isActive }) =>
+        `flex items-center gap-2.5 rounded-xl px-2 py-2 font-sans text-sm transition ${
+          isActive ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'
+        }`
+      }
+      aria-label={label}
+    >
+      <span className="w-5 h-5 rounded-md bg-white/[0.06] flex items-center justify-center">
+        <Icon size={12} />
+      </span>
+      {label}
+    </NavLink>
+  );
+}
+
 export default function Sidebar() {
   const navigate = useNavigate();
+  const [acessoRH, setAcessoRH] = useState(acessoRHConhecido);
+
+  useEffect(() => {
+    let ativo = true;
+    verificarAcessoRH().then((ok) => {
+      if (ativo) setAcessoRH(ok);
+    });
+    return () => {
+      ativo = false;
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
+    limparAcessoRH();
     navigate('/login');
   };
 
@@ -72,36 +115,28 @@ export default function Sidebar() {
         Dashboard
       </NavLink>
 
-      <span className="text-white/35 text-[10px] font-bold tracking-widest px-2 mb-2">
-        MÓDULOS
-      </span>
+      <span className="text-white/35 text-[10px] font-bold tracking-widest px-2 mb-2">MÓDULOS</span>
 
       <nav className="flex flex-col gap-0.5">
-        {itens.map(({ path, label, icon: Icon }) => (
-          <NavLink
-            key={path}
-            to={path}
-            className={({ isActive }) =>
-              `flex items-center gap-2.5 rounded-xl px-2 py-2 font-sans text-sm transition ${
-                isActive ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'
-              }`
-            }
-            aria-label={label}
-          >
-            <span className="w-5 h-5 rounded-md bg-white/[0.06] flex items-center justify-center">
-              <Icon size={12} />
-            </span>
-            {label}
-          </NavLink>
+        {itens.map((item) => (
+          <LinkMenu key={item.path} {...item} />
         ))}
       </nav>
 
+      {acessoRH && (
+        <>
+          <span className="text-white/35 text-[10px] font-bold tracking-widest px-2 mt-4 mb-2">
+            PESSOAS E GESTÃO
+          </span>
+          <nav className="flex flex-col gap-0.5">
+            <LinkMenu {...itemRH} />
+          </nav>
+        </>
+      )}
+
       <div className="flex-1" />
 
-      <div
-        className="rounded-2xl p-3.5 mb-2"
-        style={{ background: GRADIENT_CARD }}
-      >
+      <div className="rounded-2xl p-3.5 mb-2" style={{ background: GRADIENT_CARD }}>
         <div className="w-5 h-5 rounded-md bg-white/25 flex items-center justify-center mb-1.5">
           <Star size={12} className="text-white" />
         </div>
