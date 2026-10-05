@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'apps.relatorios',
     'apps.rh',
+    'apps.agenda',
 ]
 
 MIDDLEWARE = [
