@@ -13,6 +13,7 @@ import Financeiro from './pages/Financeiro';
 import Compras from './pages/Compras';
 import Relatorios from './pages/Relatorios';
 import RH from './pages/RH';
+import Agenda from './pages/Agenda';
 
 function App() {
   return (
@@ -109,6 +110,16 @@ function App() {
                 <RotaRH>
                   <RH />
                 </RotaRH>
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+        <Route
+          path="/agenda"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <Agenda />
               </Layout>
             </RotaProtegida>
           }

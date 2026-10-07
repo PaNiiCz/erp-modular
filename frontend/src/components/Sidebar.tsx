@@ -9,6 +9,7 @@ import {
   Wallet,
   Truck,
   FileText,
+  CalendarDays,
   Briefcase,
   LogOut,
   Star,
@@ -35,6 +36,7 @@ const itens: ItemMenu[] = [
   { path: '/financeiro', label: 'Financeiro', icon: Wallet },
   { path: '/compras', label: 'Compras', icon: Truck },
   { path: '/relatorios', label: 'Relatórios', icon: FileText },
+  { path: '/agenda', label: 'Agenda', icon: CalendarDays },
 ];
 
 const itemRH: ItemMenu = { path: '/rh', label: 'RH', icon: Briefcase };

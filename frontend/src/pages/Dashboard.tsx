@@ -6,6 +6,7 @@ import ProdutosMaisVendidos from '../components/dashboard/ProdutosMaisVendidos';
 import AtividadesRecentes from '../components/dashboard/AtividadesRecentes';
 import { getResumo, getProdutosMaisVendidos, getGraficoVendas, getAtividadesRecentes } from '../services/dashboard';
 import type { ResumoDashboard, ProdutoMaisVendido, VendaPorDia, AtividadeRecente } from '../types/dashboard';
+import ProximosEventos from '../components/ProximosEventos';
 
 export default function Dashboard() {
   const [resumo, setResumo] = useState<ResumoDashboard | null>(null);
@@ -54,6 +55,9 @@ export default function Dashboard() {
 
       <div className="mt-4">
         <AtividadesRecentes atividades={atividades} />
+      </div>
+      <div className="px-6 pb-6">
+        <ProximosEventos />
       </div>
     </div>
   );
