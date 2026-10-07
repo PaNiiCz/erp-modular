@@ -136,4 +136,8 @@ class UsuarioListView(generics.ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return User.objects.filter(is_active=True).order_by(User.USERNAME_FIELD)
+                return (
+            User.objects.filter(is_active=True)
+            .exclude(pk=self.request.user.pk)
+            .order_by(User.USERNAME_FIELD)
+        )

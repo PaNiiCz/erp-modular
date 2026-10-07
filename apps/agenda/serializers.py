@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from rest_framework import serializers
 
@@ -7,15 +8,44 @@ from .models import Evento, Lembrete, Notificacao
 User = get_user_model()
 
 
+def _area_do_usuario(usuario):
+    """Procura a área do funcionário no módulo de RH.
+
+    Olha o cadastro de RH ligado ao usuário e devolve o primeiro destes campos
+    que estiver preenchido: departamento, area, setor ou cargo.
+    Se não achar nada, devolve texto vazio.
+    """
+    for relacao in usuario._meta.related_objects:
+        if relacao.related_model._meta.app_label != 'rh':
+            continue
+        try:
+            cadastro = getattr(usuario, relacao.get_accessor_name())
+            if hasattr(cadastro, 'first'):  # relação de um-para-muitos
+                cadastro = cadastro.first()
+        except ObjectDoesNotExist:
+            continue
+        if cadastro is None:
+            continue
+        for campo in ('departamento', 'area', 'setor', 'cargo'):
+            valor = getattr(cadastro, campo, None)
+            if valor:
+                return str(valor)
+    return ''
+
+
 class UsuarioSimplesSerializer(serializers.ModelSerializer):
     nome = serializers.SerializerMethodField()
+    area = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'nome']
+        fields = ['id', 'nome', 'area']
 
     def get_nome(self, obj):
         return str(obj)
+
+    def get_area(self, obj):
+        return _area_do_usuario(obj)
 
 
 class EventoSerializer(serializers.ModelSerializer):
