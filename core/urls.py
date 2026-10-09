@@ -31,4 +31,5 @@ urlpatterns = [
     path('api/relatorios/', include('apps.relatorios.urls')),
     path('api/rh/', include('apps.rh.urls')),
     path('api/agenda/', include('apps.agenda.urls')),
+    path('api/', include('apps.tarefas.urls')),
 ]

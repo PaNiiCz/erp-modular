@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.relatorios',
     'apps.rh',
     'apps.agenda',
+    'apps.tarefas',
 ]
 
 MIDDLEWARE = [
