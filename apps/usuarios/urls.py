@@ -3,12 +3,13 @@ from .views import (
     CadastroView, PerfilView, ConfirmarEmailView,
     SolicitarRecuperacaoSenhaView, RedefinirSenhaView,
     LogoutView, AvatarUploadView, SessoesAtivasView, EncerrarSessaoView, teste_oauth,
+    LoginView,
 )
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path('cadastro/', CadastroView.as_view(), name='cadastro'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='login-refresh'),
     path('perfil/', PerfilView.as_view(), name='perfil'),
     path('confirmar-email/<uidb64>/<token>/', ConfirmarEmailView.as_view(), name='confirmar-email'),

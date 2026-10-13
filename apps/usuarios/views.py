@@ -11,7 +11,11 @@ from django.contrib.auth.tokens import default_token_generator
 from .models import Usuario
 from .serializers import UsuarioSerializer, AvatarSerializer
 from .utils import gerador_token_email
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from apps.administracao.services import registrar
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+
 
 
 class CadastroView(generics.CreateAPIView):
@@ -111,6 +115,7 @@ class LogoutView(APIView):
             refresh_token = request.data.get('refresh')
             token = RefreshToken(refresh_token)
             token.blacklist()
+            registrar(request.user, 'LOGOUT', 'Saiu do sistema', request=request)
             return Response({'mensagem': 'Logout realizado com sucesso!'})
         except Exception:
             return Response({'erro': 'Token inválido.'}, status=400)
@@ -163,3 +168,24 @@ from django.shortcuts import render
 
 def teste_oauth(request):
     return render(request, 'teste_oauth.html')
+
+class LoginView(TokenObtainPairView):
+    """Login JWT que registra entradas e tentativas recusadas na auditoria."""
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except AuthenticationFailed:
+            tentativa = str(request.data.get('username', ''))[:100]
+            registrar(
+                None, 'LOGIN_FALHA',
+                f'Tentativa de login recusada para "{tentativa}"',
+                request=request,
+            )
+            raise
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        registrar(serializer.user, 'LOGIN', 'Entrou no sistema', request=request)
+        return Response(serializer.validated_data, status=200)
