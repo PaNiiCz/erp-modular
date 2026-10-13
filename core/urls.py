@@ -37,4 +37,5 @@ urlpatterns = [
     path("api/apoio/eu/", EuView.as_view()),
     path("api/apoio/setores/", SetoresView.as_view()),
     path("api/apoio/usuarios/", UsuariosView.as_view()),
+    path('api/administracao/', include('apps.administracao.urls')),
 ]

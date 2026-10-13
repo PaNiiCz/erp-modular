@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'apps.agenda',
     'apps.tarefas',
     "apps.comunicados",
+    'apps.administracao',
 ]
 
 MIDDLEWARE = [
