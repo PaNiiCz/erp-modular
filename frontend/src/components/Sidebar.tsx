@@ -10,6 +10,8 @@ import {
   Truck,
   FileText,
   CalendarDays,
+  KanbanSquare,
+  Megaphone,
   Briefcase,
   LogOut,
   Star,
@@ -37,6 +39,8 @@ const itens: ItemMenu[] = [
   { path: '/compras', label: 'Compras', icon: Truck },
   { path: '/relatorios', label: 'Relatórios', icon: FileText },
   { path: '/agenda', label: 'Agenda', icon: CalendarDays },
+  { path: '/tarefas', label: 'Tarefas', icon: KanbanSquare },
+  { path: '/comunicados', label: 'Comunicados', icon: Megaphone },
 ];
 
 const itemRH: ItemMenu = { path: '/rh', label: 'RH', icon: Briefcase };

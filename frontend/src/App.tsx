@@ -14,6 +14,8 @@ import Compras from './pages/Compras';
 import Relatorios from './pages/Relatorios';
 import RH from './pages/RH';
 import Agenda from './pages/Agenda';
+import Tarefas from './pages/Tarefas';
+import Comunicados from './pages/Comunicados';
 
 function App() {
   return (
@@ -120,6 +122,26 @@ function App() {
             <RotaProtegida>
               <Layout>
                 <Agenda />
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+        <Route
+          path="/tarefas"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <Tarefas />
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+        <Route
+          path="/comunicados"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <Comunicados />
               </Layout>
             </RotaProtegida>
           }

@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from apps.tarefas.apoio import EuView, SetoresView, UsuariosView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,7 @@ urlpatterns = [
     path('api/agenda/', include('apps.agenda.urls')),
     path('api/', include('apps.tarefas.urls')),
     path("api/", include("apps.comunicados.urls")),
+    path("api/apoio/eu/", EuView.as_view()),
+    path("api/apoio/setores/", SetoresView.as_view()),
+    path("api/apoio/usuarios/", UsuariosView.as_view()),
 ]
