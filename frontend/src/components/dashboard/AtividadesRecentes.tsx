@@ -12,7 +12,7 @@ const iconePorTipo: Record<string, string> = {
 
 export default function AtividadesRecentes({ atividades }: Props) {
   return (
-    <div className="glass-card rounded-2xl p-6">
+    <div className="glass-card glass-sem-hover rounded-2xl p-6">
       <p className="text-text-secondary text-sm font-sans mb-4">Atividades recentes</p>
       <div className="space-y-3">
         {atividades.map((a, i) => (

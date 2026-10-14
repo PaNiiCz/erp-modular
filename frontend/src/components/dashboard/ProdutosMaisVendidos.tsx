@@ -6,7 +6,7 @@ interface Props {
 
 export default function ProdutosMaisVendidos({ produtos }: Props) {
   return (
-    <div className="glass-card rounded-2xl p-6">
+    <div className="glass-card glass-sem-hover rounded-2xl p-6">
       <p className="text-text-secondary text-sm font-sans mb-4">Produtos mais vendidos</p>
       <div className="space-y-3">
         {produtos.map((p) => (
