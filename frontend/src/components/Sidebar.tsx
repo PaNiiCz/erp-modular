@@ -13,12 +13,18 @@ import {
   KanbanSquare,
   Megaphone,
   Briefcase,
+  ShieldCheck,
   LogOut,
   Star,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { logout } from '../services/auth';
 import { acessoRHConhecido, limparAcessoRH, verificarAcessoRH } from '../services/rh';
+import {
+  acessoAdministracaoConhecido,
+  limparAcessoAdministracao,
+  verificarAcessoAdministracao,
+} from '../services/administracaoApi';
 
 const GRADIENT_ACTIVE = 'linear-gradient(135deg, #4318ff 0%, #2dd4ff 100%)';
 const GRADIENT_CARD = 'linear-gradient(160deg, #4318ff 0%, #2dd4ff 120%)';
@@ -44,6 +50,7 @@ const itens: ItemMenu[] = [
 ];
 
 const itemRH: ItemMenu = { path: '/rh', label: 'RH', icon: Briefcase };
+const itemAdmin: ItemMenu = { path: '/administracao', label: 'Administração', icon: ShieldCheck };
 
 function LinkMenu({ path, label, icon: Icon }: ItemMenu) {
   return (
@@ -67,11 +74,15 @@ function LinkMenu({ path, label, icon: Icon }: ItemMenu) {
 export default function Sidebar() {
   const navigate = useNavigate();
   const [acessoRH, setAcessoRH] = useState(acessoRHConhecido);
+  const [acessoAdmin, setAcessoAdmin] = useState(acessoAdministracaoConhecido);
 
   useEffect(() => {
     let ativo = true;
     verificarAcessoRH().then((ok) => {
       if (ativo) setAcessoRH(ok);
+    });
+    verificarAcessoAdministracao().then((ok) => {
+      if (ativo) setAcessoAdmin(ok);
     });
     return () => {
       ativo = false;
@@ -81,6 +92,7 @@ export default function Sidebar() {
   const handleLogout = () => {
     logout();
     limparAcessoRH();
+    limparAcessoAdministracao();
     navigate('/login');
   };
 
@@ -136,6 +148,17 @@ export default function Sidebar() {
           </span>
           <nav className="flex flex-col gap-0.5">
             <LinkMenu {...itemRH} />
+          </nav>
+        </>
+      )}
+
+      {acessoAdmin && (
+        <>
+          <span className="text-white/35 text-[10px] font-bold tracking-widest px-2 mt-4 mb-2">
+            ADMINISTRAÇÃO
+          </span>
+          <nav className="flex flex-col gap-0.5">
+            <LinkMenu {...itemAdmin} />
           </nav>
         </>
       )}

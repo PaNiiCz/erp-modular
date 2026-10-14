@@ -4,6 +4,7 @@ import Cadastro from './pages/Cadastro';
 import Dashboard from './pages/Dashboard';
 import RotaProtegida from './components/RotaProtegida';
 import RotaRH from './components/RotaRH';
+import RotaAdministracao from './components/RotaAdministracao';
 import Layout from './components/Layout';
 import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
@@ -16,11 +17,13 @@ import RH from './pages/RH';
 import Agenda from './pages/Agenda';
 import Tarefas from './pages/Tarefas';
 import Comunicados from './pages/Comunicados';
+import Administracao from './pages/Administracao';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
 
@@ -142,6 +145,19 @@ function App() {
             <RotaProtegida>
               <Layout>
                 <Comunicados />
+              </Layout>
+            </RotaProtegida>
+          }
+        />
+
+        <Route
+          path="/administracao"
+          element={
+            <RotaProtegida>
+              <Layout>
+                <RotaAdministracao>
+                  <Administracao />
+                </RotaAdministracao>
               </Layout>
             </RotaProtegida>
           }
